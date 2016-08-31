@@ -2,18 +2,39 @@
  
 <h1><%= title %></h1>
 <form action="/create" method="post" accept-charset="utf-8">
-  <input type="text" name="content" />
+  <input type="text" name="content" placeholder="Enter todo here..." />
+  <button type='submit'>
+  	<i class='fa fa-plus'></i>
+	</button>
 </form>
  
 <% todos.forEach( function ( todo ){ %>
   <p>
-    <span><%= todo.content %></span>
-      <a href="/edit/<%= todo._id %>" title="Update this todo item">
-      	<i class="fa fa-pencil" aria-hidden="true"></i>
-      </a>
-    <span></span>  
-      <a href="/destroy/<%= todo._id %>" title="Delete this todo item">
-      	<i class="fa fa-trash" aria-hidden="true"></i>
-      </a>
+  	<% if( todo.status == "Completed" ){ %>
+
+  	<span class="check-completed"><%= todo.content %></span>	
+		<a href="/checktodo/<%= todo._id %>" title="Mark this todo item">
+    	<i class="fa fa-check-square-o" aria-hidden="true"></i>
+    </a>
+    <a href="/edit/<%= todo._id %>" title="Update this todo item">
+    	<i class="fa fa-pencil" aria-hidden="true"></i>
+    </a>
+    <a href="/destroy/<%= todo._id %>" title="Delete this todo item">
+    	<i class="fa fa-trash" aria-hidden="true"></i>
+    </a>
+	  <% }else{ %>
+		
+		<span class="check-todo"><%= todo.content %></span>
+		<a href="/completed/<%= todo._id %>" title="Mark this todo item">
+    	<i class="fa fa-square-o" aria-hidden="true"></i>
+    </a>
+    <a href="/edit/<%= todo._id %>" title="Update this todo item">
+    	<i class="fa fa-pencil" aria-hidden="true"></i>
+    </a>
+    <a href="/destroy/<%= todo._id %>" title="Delete this todo item">
+    	<i class="fa fa-trash" aria-hidden="true"></i>
+    </a>
+
+		<% } %>
   </p>
 <% }); %>

@@ -4,13 +4,17 @@ body {
   text-align: center;
 }
 
-span {
-  margin-right: 10px;
+button {
+  color: #00B7FF;
 }
 
 a {
   color: #00B7FF;
   text-decoration: none;
+}
+
+.check-completed {
+  text-decoration: line-through;
 }
 
 footer {

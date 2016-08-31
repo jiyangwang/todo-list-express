@@ -1,4 +1,4 @@
-var express = require('express');
+var utils    = require( '../utils' );
 var mongoose = require( 'mongoose' );
 var Todo     = mongoose.model( 'Todo' );
 
@@ -21,15 +21,17 @@ exports.index = function ( req, res, next ){
 };
 
 exports.create = function ( req, res, next ){
-  new Todo({
-      user_id    : req.cookies.user_id,
-      content    : req.body.content,
-      updated_at : Date.now()
-  }).save( function ( err, todo, count ){
-    if( err ) return next( err );
- 
-    res.redirect( '/' );
-  });
+  content = req.body.content;
+  if (content) {
+    new Todo({
+        user_id    : req.cookies.user_id,
+        content    : req.body.content,
+        updated_at : Date.now()
+    }).save( function ( err, todo, count ){
+      if( err ) return next( err );
+      res.redirect( '/' )
+    });
+  } else {res.redirect( '/' );}
 };
 
 exports.edit = function( req, res, next ){
@@ -81,6 +83,44 @@ exports.update = function( req, res, next ){
     todo.save( function ( err, todo, count ){
       if( err ) return next( err );
  
+      res.redirect( '/' );
+    });
+  });
+};
+
+exports.completed = function ( req, res, next ){
+  Todo.findById( req.params.id, function ( err, todo ){
+
+    var user_id = req.cookies ?
+      req.cookies.user_id : undefined;
+
+    if( todo.user_id !== req.cookies.user_id ){
+      return utils.forbidden( res );
+    }
+
+    todo.status    = "Completed";
+    todo.save( function ( err, todo, count ){
+      if( err ) return next( err );
+
+      res.redirect( '/' );
+    });
+  });
+};
+
+exports.checktodo = function ( req, res, next ){
+  Todo.findById( req.params.id, function ( err, todo ){
+
+    var user_id = req.cookies ?
+      req.cookies.user_id : undefined;
+
+    if( todo.user_id !== req.cookies.user_id ){
+      return utils.forbidden( res );
+    }
+
+    todo.status    = "Todo";
+    todo.save( function ( err, todo, count ){
+      if( err ) return next( err );
+      
       res.redirect( '/' );
     });
   });

@@ -2,27 +2,32 @@
  
 <h1><%= title %></h1>
 <form action="/create" method="post" accept-charset="utf-8">
-  <input type="text" name="content" />
+  <input type="text" name="content" placeholder="Enter todo here..." />
+  <button type='submit'>
+    <i class='fa fa-plus'></i>
+  </button>
 </form>
  
 <% todos.forEach( function( todo ){ %>
   <p>
-    <span>
-      <% if( todo._id == current ){ %>
-      <form action="/update/<%= todo._id %>" method="post" accept-charset="utf-8">
-        <input type="text" name="content" value="<%= todo.content %>" /><br>
-        <input type="submit" value="update" />
-      </form>
-      <% }else{ %>
-        <%= todo.content %>
-        <a href="/edit/<%= todo._id %>" title="Update this todo item">
-          <i class="fa fa-pencil" aria-hidden="true"></i>
-        </a>
-        <span></span>
-        <a href="/destroy/<%= todo._id %>" title="Delete this todo item">
-          <i class="fa fa-trash" aria-hidden="true"></i>
-        </a>
-      <% } %>
-    </span>
+    <% if( todo._id == current ){ %>
+
+    <form action="/update/<%= todo._id %>" method="post" accept-charset="utf-8">
+      <input type="text" name="content" value="<%= todo.content %>" /><br>
+      <button type="submit" value="Update">Update</button>
+      <button type="reset" value="Reset">Reset</button>
+    </form>
+    
+    <% }else{ %>
+    
+    <%= todo.content %>
+    <a href="/edit/<%= todo._id %>" title="Update this todo item">
+      <i class="fa fa-pencil" aria-hidden="true"></i>
+    </a>
+    <a href="/destroy/<%= todo._id %>" title="Delete this todo item">
+      <i class="fa fa-trash" aria-hidden="true"></i>
+    </a>
+
+    <% } %>
   </p>
 <% }); %>
