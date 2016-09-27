@@ -67,3 +67,6 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+var listener = app.listen(3000, function(){
+    console.log('Listening on localhost:' + listener.address().port);
+});
